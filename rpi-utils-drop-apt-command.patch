@@ -1,0 +1,39 @@
+diff --git a/raspinfo/raspinfo b/raspinfo/raspinfo
+index 3a15a85..4cd54c5 100755
+--- a/raspinfo/raspinfo
++++ b/raspinfo/raspinfo
+@@ -45,16 +45,6 @@ display_info_drm() {
+       done
+    fi
+ 
+-   # kmsprint is more useful, but not always installed
+-   echo
+-   if command -v kmsprint > /dev/null; then
+-      kmsprint
+-      echo
+-      kmsprint -m
+-   else
+-      echo "kmsprint is not installed. Install with: sudo apt install kms++-utils"
+-   fi
+-
+    echo
+ 
+    # dump the /sys/class entries for the displays
+@@ -175,17 +165,6 @@ df
+ echo
+ cat /proc/swaps
+ 
+-echo
+-echo "Package version information"
+-echo "---------------------------"
+-
+-apt-cache policy raspberrypi-ui-mods | head -2
+-apt-cache policy raspberrypi-sys-mods | head -2
+-apt-cache policy openbox | head -2
+-apt-cache policy lxpanel | head -2
+-apt-cache policy pcmanfm | head -2
+-apt-cache policy rpd-plym-splash | head -2
+-
+ echo
+ echo "Networking Information"
+ echo "----------------------"
