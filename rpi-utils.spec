@@ -66,11 +66,6 @@ do
 	popd
 done
 
-# Relocate man files that lost their way
-mv %{buildroot}%{_prefix}/man/man1/* %{buildroot}%{_mandir}/man1
-mkdir -p %{buildroot}%{_mandir}/man7
-mv %{buildroot}%{_prefix}/man/man7/* %{buildroot}%{_mandir}/man7
-
 # Relocate overlaycheck_exclusions.txt
 mkdir -p %{buildroot}%{_datadir}/overlaycheck
 mv %{buildroot}%{_bindir}/overlaycheck_exclusions.txt %{buildroot}%{_datadir}/overlaycheck
