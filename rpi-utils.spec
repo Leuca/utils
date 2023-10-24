@@ -21,6 +21,8 @@ BuildRequires:  make
 BuildRequires:  glibc-devel
 BuildRequires:  libfdt-devel
 
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+
 Conflicts:      rpi-userland
 
 Provides:       vcgencmd
@@ -39,6 +41,18 @@ A collection of scripts and simple applications for the Raspberry Pi including:
   * raspinfo - A short script to dump information about the Pi. Intended for the submission of bug reports.
   * vclog - A tool to get VideoCore 'assert' or 'msg' logs with optional -f to wait for new logs to arrive.
 
+%package libs
+Summary:        Shared libraries for rpi-utils
+
+%description libs
+This package includes shared libraries used by rpi-utils
+
+%package devel
+Summary:        Development files for rpi-utils
+
+%description devel
+This package includes development files relative to rpi-utils
+
 %prep
 {{{ git_dir_setup_macro }}}
 %autopatch -p1
@@ -48,6 +62,12 @@ export PROGRAMS=($(cat CMakeLists.txt | grep add_subdirectory | cut -d"(" -f 2 |
 
 # Compiling vclog without position independent code causes a compilation error for some reason
 sed -i 's/-pedantic/-pedantic -fPIC/g' vclog/CMakeLists.txt
+
+# Make libdtovl shared
+sed -i 's/${STATIC}/SHARED/g' dtmerge/CMakeLists.txt
+echo "set_target_properties(dtovl PROPERTIES SOVERSION %{major}.%{minor}.%{patch})" >> dtmerge/CMakeLists.txt
+echo "install(TARGETS dtovl DESTINATION %{_lib})" >> dtmerge/CMakeLists.txt
+echo "install(FILES dtoverlay.h DESTINATION include)" >> dtmerge/CMakeLists.txt
 
 # This is a workaround to prevent undefined references in pinctrl
 for PROGRAM in "${PROGRAMS[@]}"
@@ -80,6 +100,13 @@ sed -i 's!my $exclusions_file = $0 . "_exclusions.txt"!my $exclusions_file = "/u
 %{_mandir}/man7/*
 %{_datadir}/bash-completion/completions/*
 %{_datadir}/overlaycheck/overlaycheck_exclusions.txt
+
+%files libs
+%{_libdir}/libdtovl.so.*
+
+%files devel
+%{_libdir}/libdtovl.so
+%{_includedir}/dtoverlay.h
 
 %changelog
 {{{ git_dir_changelog }}}
