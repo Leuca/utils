@@ -23,6 +23,8 @@ BuildRequires:  libfdt-devel
 
 Conflicts:      rpi-userland
 
+Provides:       vcgencmd
+
 Source:         {{{ git_dir_pack }}}
 
 Patch0:         rpi-utils-drop-apt-command.patch
