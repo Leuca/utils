@@ -76,7 +76,7 @@ sed -i 's!my $exclusions_file = $0 . "_exclusions.txt"!my $exclusions_file = "/u
 %{_bindir}/*
 %{_mandir}/man1/*
 %{_mandir}/man7/*
-%{_datadir}/bash-completion/completions/pinctrl
+%{_datadir}/bash-completion/completions/*
 %{_datadir}/overlaycheck/overlaycheck_exclusions.txt
 
 %changelog
