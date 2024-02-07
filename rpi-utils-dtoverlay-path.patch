@@ -1,0 +1,12 @@
+diff --git a/dtmerge/dtoverlay_main.c b/dtmerge/dtoverlay_main.c
+index 530b5b9..3cb65dc 100644
+--- a/dtmerge/dtoverlay_main.c
++++ b/dtmerge/dtoverlay_main.c
+@@ -65,6 +65,7 @@ static const char *boot_dirs[] =
+ #ifdef FORCE_BOOT_DIR
+     FORCE_BOOT_DIR,
+ #else
++    "/boot/efi",
+     "/boot/firmware",
+     "/boot",
+     "/flash",
