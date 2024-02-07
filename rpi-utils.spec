@@ -30,6 +30,7 @@ Provides:       vcgencmd
 Source:         {{{ git_dir_pack }}}
 
 Patch0:         rpi-utils-drop-apt-command.patch
+Patch1:         rpi-utils-dtoverlay-path.patch
 
 %description
 A collection of scripts and simple applications for the Raspberry Pi including:
