@@ -59,40 +59,18 @@ This package includes development files relative to rpi-utils
 %autopatch -p1
 
 %build
-export PROGRAMS=($(cat CMakeLists.txt | grep add_subdirectory | cut -d"(" -f 2 | cut -d")" -f 1))
+%cmake -DCFLAGS="-fPIC"
+%cmake_build
 
-# Compiling vclog without position independent code causes a compilation error for some reason
-sed -i 's/-pedantic/-pedantic -fPIC/g' vclog/CMakeLists.txt
-
-# Make libdtovl shared
-sed -i 's/${STATIC}/SHARED/g' dtmerge/CMakeLists.txt
-echo "set_target_properties(dtovl PROPERTIES SOVERSION %{major}.%{minor}.%{patch})" >> dtmerge/CMakeLists.txt
-echo "install(TARGETS dtovl DESTINATION %{_lib})" >> dtmerge/CMakeLists.txt
-echo "install(FILES dtoverlay.h DESTINATION include)" >> dtmerge/CMakeLists.txt
-
-# This is a workaround to prevent undefined references in pinctrl
-for PROGRAM in "${PROGRAMS[@]}"
-do
-	pushd $PROGRAM
-	%cmake
-	%cmake_build
-	popd
-done
 
 %install
-export PROGRAMS=($(cat CMakeLists.txt | grep add_subdirectory | cut -d"(" -f 2 | cut -d")" -f 1))
-
-for PROGRAM in "${PROGRAMS[@]}"
-do
-	pushd $PROGRAM
-	%cmake_install
-	popd
-done
+%cmake_install
 
 # Relocate overlaycheck_exclusions.txt
 mkdir -p %{buildroot}%{_datadir}/overlaycheck
 mv %{buildroot}%{_bindir}/overlaycheck_exclusions.txt %{buildroot}%{_datadir}/overlaycheck
 sed -i 's!my $exclusions_file = $0 . "_exclusions.txt"!my $exclusions_file = "/usr/share/overlaycheck/overlaycheck_exclusions.txt"!g' %{buildroot}%{_bindir}/overlaycheck
+
 
 %files
 %license LICENCE
@@ -102,12 +80,28 @@ sed -i 's!my $exclusions_file = $0 . "_exclusions.txt"!my $exclusions_file = "/u
 %{_datadir}/bash-completion/completions/*
 %{_datadir}/overlaycheck/overlaycheck_exclusions.txt
 
+
 %files libs
 %{_libdir}/libdtovl.so.*
+%{_libdir}/libgpiolib.so.*
+%{_libdir}/libpio.so.*
+
 
 %files devel
-%{_libdir}/libdtovl.so
 %{_includedir}/dtoverlay.h
+%{_includedir}/gpiolib.h
+%{_includedir}/piolib/hardware/clocks.h
+%{_includedir}/piolib/hardware/gpio.h
+%{_includedir}/piolib/hardware/pio.h
+%{_includedir}/piolib/hardware/pio_instructions.h
+%{_includedir}/piolib/hardware/timer.h
+%{_includedir}/piolib/pico/stdlib.h
+%{_includedir}/piolib/pio_platform.h
+%{_includedir}/piolib/piolib.h
+%{_libdir}/libdtovl.so
+%{_libdir}/libgpiolib.so
+%{_libdir}/libpio.so
+
 
 %changelog
 {{{ git_dir_changelog }}}
