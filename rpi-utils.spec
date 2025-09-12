@@ -20,6 +20,7 @@ BuildRequires:  cmake
 BuildRequires:  make
 BuildRequires:  glibc-devel
 BuildRequires:  libfdt-devel
+BuildRequires:  gnutls-devel
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
