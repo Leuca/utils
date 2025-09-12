@@ -86,6 +86,7 @@ sed -i 's!my $exclusions_file = $0 . "_exclusions.txt"!my $exclusions_file = "/u
 %{_libdir}/libdtovl.so.*
 %{_libdir}/libgpiolib.so.*
 %{_libdir}/libpio.so.*
+%{_libdir}/librpifwcrypto.so.*
 
 
 %files devel
@@ -99,9 +100,11 @@ sed -i 's!my $exclusions_file = $0 . "_exclusions.txt"!my $exclusions_file = "/u
 %{_includedir}/piolib/pico/stdlib.h
 %{_includedir}/piolib/pio_platform.h
 %{_includedir}/piolib/piolib.h
+%{_includedir}/rpifwcrypto.h
 %{_libdir}/libdtovl.so
 %{_libdir}/libgpiolib.so
 %{_libdir}/libpio.so
+%{_libdir}/librpifwcrypto.so
 
 
 %changelog
